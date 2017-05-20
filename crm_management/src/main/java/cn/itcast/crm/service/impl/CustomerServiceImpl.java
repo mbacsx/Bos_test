@@ -46,4 +46,9 @@ public class CustomerServiceImpl implements CustomerService {
 			customerRepository.updateFixedAreaId(fixedAreaId, Integer.parseInt(id));
 		}
 	}
+
+	@Override
+	public void regist(Customer model) {
+		customerRepository.save(model);
+	}
 }
