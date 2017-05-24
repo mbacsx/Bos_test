@@ -44,4 +44,15 @@ public interface CustomerService {
 	@POST
 	@Consumes({ "application/xml", "application/json" })
 	public void regist(Customer model);
+	
+	// 通过手机号查询激活状态
+	@Path("/telephone/{telephone}")
+	@GET
+	@Consumes({ "application/xml", "application/json" })
+	public Customer findByTelephone(@PathParam("telephone") String telephone);
+	
+	// 修改激活状态
+	@Path("/updateType")
+	@PUT
+	public void updateType(@QueryParam("telephone") String telephone);
 }

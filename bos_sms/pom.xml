@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.itcast.maven</groupId>
+		<artifactId>common_parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>bos_sms</artifactId>
+	<packaging>war</packaging>
+	<name>bos_sms</name>
+	<description>bos系统的统一的短信邮件平台</description>
+	<dependencies>
+		<dependency>    
+            <groupId>com.taobao.api</groupId>    
+            <artifactId>taobao-sdk-java-auto</artifactId>    
+            <version>1.0</version>    
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<port>8001</port>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

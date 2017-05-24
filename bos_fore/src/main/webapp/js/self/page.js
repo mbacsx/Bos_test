@@ -24,7 +24,7 @@ bosfore_app.controller("ctrlRead", ['$scope', '$http', function($scope, $http) {
 
 		$http({
 			method: 'GET',
-			url: 'data/promotion' + page + '.json',
+			url: './promotion_pageQuery.action',
 			params: {
 				"page": page,
 				"pageSize": $scope.pageSize
