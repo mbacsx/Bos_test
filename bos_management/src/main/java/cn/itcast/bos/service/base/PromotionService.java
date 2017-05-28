@@ -10,6 +10,7 @@ import javax.ws.rs.QueryParam;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import cn.itcast.bos.domain.page.PageBean;
 import cn.itcast.bos.domain.take_delivery.Promotion;
@@ -17,8 +18,9 @@ import cn.itcast.bos.domain.take_delivery.Promotion;
 public interface PromotionService {
 
 	void save(Promotion model);
-
-	Page<Promotion> pageQuery(Pageable pageable);
+	
+	// 分页条件查询
+	Page<Promotion> pageQuery(Specification<Promotion> specification, Pageable pageable);
 	
 	// 前台页面分页展示请求
 	@Path("/pageQuery")
@@ -26,7 +28,7 @@ public interface PromotionService {
 	@Produces({ "application/xml", "application/json" })
 	public PageBean<Promotion> pageQuery(@QueryParam("page") int page, @QueryParam("rows") int rows);
 	
-	// 活动详情数据展示
+	// 前台活动详情数据展示
 	@Path("/promotion/{id}")
 	@GET
 	@Produces({ "application/xml", "application/json" })
@@ -34,4 +36,7 @@ public interface PromotionService {
 	
 	// 修改活动过期状态
 	void updateStatus(Date date);
+	
+	// 后台批量取消宣传任务
+	void updateStatus(String[] idArray);
 }

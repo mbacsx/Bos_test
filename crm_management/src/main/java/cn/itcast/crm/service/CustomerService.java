@@ -45,7 +45,7 @@ public interface CustomerService {
 	@Consumes({ "application/xml", "application/json" })
 	public void regist(Customer model);
 	
-	// 通过手机号查询激活状态
+	// 通过手机号查询激活状态/登录
 	@Path("/telephone/{telephone}")
 	@GET
 	@Consumes({ "application/xml", "application/json" })
@@ -55,4 +55,16 @@ public interface CustomerService {
 	@Path("/updateType")
 	@PUT
 	public void updateType(@QueryParam("telephone") String telephone);
+	
+	// 用户登录
+	@Path("/customer/login")
+	@GET
+	@Consumes({ "application/xml", "application/json" })
+	public Customer login(@QueryParam("telephone") String telephone,@QueryParam("password") String password);
+	
+	// 通过匹配客户的详细地址匹配到定区
+	@Path("/customer/findFixedAreaIdByAddress")
+	@GET
+	@Consumes({ "application/xml", "application/json" })
+	public String findFixedAreaIdByAddress(@QueryParam("sendAddress") String sendAress);
 }

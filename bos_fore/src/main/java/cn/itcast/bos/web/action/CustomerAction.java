@@ -35,19 +35,34 @@ import cn.itcast.crm.domain.Customer;
 public class CustomerAction extends BaseAction<Customer> {
 	private static final long serialVersionUID = 1L;
 	
+	// 注入activeMQ的Queue模版
 	@Autowired
 	@Qualifier("jmsQueueTemplate")
-	// 注入activeMQ的Queue模版
 	private JmsTemplate jmsTemplate;
 	
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
+	// 密码登录
+	@Action(value="customer_login",results={@Result(name="success",type="redirect",location="./index.html#/myhome"),
+			@Result(name="error",type="redirect",location="./login.html")})
+	public String passwordLogin(){
+		
+		Customer customer = WebClient.create("http://localhost:8088/crm_management/services/customerService/customer/login?telephone="+model.getTelephone()+"&password="+model.getPassword()).accept(MediaType.APPLICATION_JSON).get(Customer.class);
+		if (customer == null) {
+			return ERROR;
+		}else {
+			// 保存到session
+			ServletActionContext.getRequest().getSession().setAttribute("customer", customer);
+			return SUCCESS;
+		}
+	}
+	
 	@Action(value = "customer_sendSms")
 	public String sendSms() {
 		// 生成验证码
 		final String randomNumeric = RandomStringUtils.randomNumeric(4);
-		System.out.println("验证码" + randomNumeric);
+		System.out.println("验证码" + randomNumeric + ",手机号" + model.getTelephone());
 		// 把验证码存入session
 		ServletActionContext.getRequest().getSession().setAttribute("checkCode", randomNumeric);
 		
@@ -66,8 +81,8 @@ public class CustomerAction extends BaseAction<Customer> {
 		});
 		return NONE;
 	}
-
-	// 属性驱动接收验证码
+	
+	// 属性驱动接收验证码,用于注册和短信登录
 	private String checkCode;
 
 	// 用户注册

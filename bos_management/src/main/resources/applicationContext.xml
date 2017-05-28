@@ -77,4 +77,7 @@
 	<!-- 导入quartz -->
 	<import resource="applicationContext-quartz.xml"/>
 	
+	<!-- 导入activeMQ -->
+	<import resource="applicationContext-mq.xml"/>
+	
 </beans>

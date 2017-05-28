@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +28,8 @@ public class PromotionServiceImpl implements PromotionService {
 	}
 
 	@Override
-	public Page<Promotion> pageQuery(Pageable pageable) {
-		return promotionRepository.findAll(pageable);
+	public Page<Promotion> pageQuery(Specification<Promotion> specification,Pageable pageable) {
+		return promotionRepository.findAll(specification,pageable);
 	}
 	
 	// 前台页面分页展示请求
@@ -47,9 +48,18 @@ public class PromotionServiceImpl implements PromotionService {
 	public Promotion findPromotion(Integer id) {
 		return promotionRepository.findOne(id);
 	}
-
+	
+	// 定时取消宣传任务
 	@Override
 	public void updateStatus(Date date) {
 		promotionRepository.updateStatus(date);
+	}
+	
+	// 后台批量取消宣传任务
+	@Override
+	public void updateStatus(String[] idArray) {
+		for (String id : idArray) {
+			promotionRepository.updateStatus(Integer.parseInt(id));
+		}
 	}
 }
