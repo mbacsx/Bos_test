@@ -41,16 +41,13 @@
 			
 			function doEdit(){
 				var rows = $("#grid").datagrid('getSelections');// 获取所有选择的行
-				if(rows.length!=1){
+				if(rows.length != 1){
 					$.messager.alert("警告","不允许不选或多选!","warning")
 				}else{
-					$("#courierNum").attr({"disabled":true});// 让表单变得不可修改
-					$("#courierNum").attr({"required":false});// 取消表单验证
-					$("#courierForm").attr({"action":'../../courier_update.action'});// 修改表单提交路径
-					$("#courierForm").append("<input type='hidden' name='id'/>");// 提供隐藏域 装载id
-					var row = rows[0];
-					$("#courierForm").form('load',row);
-					$("#addWindow").window("open");
+					$("#courierForm").form('load',rows[0]);// 回显
+					$("#courierNum").val(rows[0].courierNum);
+					$("#courierNum").attr({"readonly":true});// 让表单变得不可修改
+					$("#addWindow").window('open');
 				}
 			}
 			
@@ -262,8 +259,8 @@
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="4">收派员信息</td>
+							<input type="hidden" name="id" />
 						</tr>
-						
 						<tr>
 							<td>快递员工号</td>
 							<td>

@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,17 @@ public class CourierServiceImpl implements CourierService {
 	
 	@Override
 	public void save(Courier courier) {
-		courierRepository.save(courier);
+		Courier persistCourier = courierRepository.findByCourierNum(courier.getCourierNum());
+		if (persistCourier == null) {
+			courierRepository.save(courier);
+		}else {
+			try{
+				BeanUtils.copyProperties(persistCourier, courier);
+			}catch(Exception e){
+				e.printStackTrace();
+				throw new RuntimeException("保存快递员异常!");
+			}
+		}
 	}
 
 	@Override
@@ -45,19 +56,19 @@ public class CourierServiceImpl implements CourierService {
 	}
 	
 	//修改快递员信息
-	@Override
-	public void update(Courier courier) {
-		Courier c = courierRepository.findOne(courier.getId());
-		c.setName(courier.getName());
-		c.setTelephone(courier.getTelephone());
-		c.setPda(courier.getPda());
-		c.setDeltag(courier.getDeltag());
-		c.setCheckPwd(courier.getCheckPwd());
-		c.setType(courier.getType());
-		c.setCompany(courier.getCompany());
-		c.setVehicleType(courier.getVehicleType());
-		c.setVehicleNum(courier.getVehicleNum());
-	}
+//	@Override
+//	public void update(Courier courier) {
+//		Courier c = courierRepository.findOne(courier.getId());
+//		c.setName(courier.getName());
+//		c.setTelephone(courier.getTelephone());
+//		c.setPda(courier.getPda());
+//		c.setDeltag(courier.getDeltag());
+//		c.setCheckPwd(courier.getCheckPwd());
+//		c.setType(courier.getType());
+//		c.setCompany(courier.getCompany());
+//		c.setVehicleType(courier.getVehicleType());
+//		c.setVehicleNum(courier.getVehicleNum());
+//	}
 
 	@Override
 	public List<Courier> findNoAssciation() {

@@ -16,8 +16,6 @@ public interface CourierService {
 
 	void updateDeltag(String[] idsArray, String flag);
 
-	void update(Courier courier);
-
 	List<Courier> findNoAssciation();
 
 }

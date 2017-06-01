@@ -183,10 +183,19 @@ public class OrderServiceImpl implements OrderService {
 				// 联系电话
 				mapMessage.setString("sendPhone", order.getSendMobile());
 				// 给快递员的悄悄话
-				mapMessage.setString("sendMobileMsg", order.getSendMobileMsg());
+				if (order.getSendMobileMsg() != null) {
+					mapMessage.setString("sendMobileMsg", order.getSendMobileMsg());
+				}else {
+					mapMessage.setString("sendMobileMsg", "无");
+				}
 				return mapMessage;
 			}
 		});
+	}
+
+	@Override
+	public Order findByOrderNum(String orderNum) {
+		return orderRepository.findByOrderNum(orderNum);
 	}
 
 }

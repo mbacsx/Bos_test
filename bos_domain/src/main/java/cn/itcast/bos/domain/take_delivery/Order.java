@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import cn.itcast.bos.domain.base.Area;
 import cn.itcast.bos.domain.base.Courier;
 
@@ -251,7 +253,7 @@ public class Order {
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
 	}
-
+	
 	public WayBill getWayBill() {
 		return wayBill;
 	}
@@ -259,7 +261,8 @@ public class Order {
 	public void setWayBill(WayBill wayBill) {
 		this.wayBill = wayBill;
 	}
-
+	
+	@JSON(serialize=false)//不在json数据中出现
 	public Set<WorkBill> getWorkBills() {
 		return workBills;
 	}

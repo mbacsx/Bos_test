@@ -17,4 +17,6 @@ public interface CourierRepository extends JpaRepository<Courier, Integer>,JpaSp
 	@Modifying
 	void update(Courier courier);
 
+	Courier findByCourierNum(String courierNum);
+
 }

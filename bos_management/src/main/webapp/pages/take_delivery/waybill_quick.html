@@ -65,7 +65,7 @@
 			}];
 			// 定义列
 			var columns = [ [ {
-				field : 'id',
+				field : 'wayBillNum',
 				title : '工作单号',
 				width : 120,
 				align : 'center',
@@ -76,7 +76,7 @@
 					}
 				}
 			}, {
-				field : 'arrivecity',
+				field : 'arriveCity',
 				title : '到达地',
 				width : 120,
 				align : 'center',
@@ -87,8 +87,8 @@
 					}
 				}
 			},{
-				field : 'product',
-				title : '产品',
+				field : 'goodsType',
+				title : '托寄物类型',
 				width : 120,
 				align : 'center',
 				editor :{
@@ -146,11 +146,22 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url :  "",
+					url :  "../../waybill_pageQuery.action",
 					idField : 'id',
 					columns : columns,
 					onDblClickRow : doDblClickRow,
 					onAfterEdit : function(rowIndex, rowData, changes){
+						// 将新增一行的数据添加到数据库中
+						$.post("../../waybill_save.action",rowData,function(data){
+							$.messager.show({
+								title : '提示',
+								msg : data.msg
+							});
+							if(data.success){
+								// 刷新当前页面
+								$("gird").datagrid('reload');
+							}
+						});
 						console.info(rowData);
 						editIndex = undefined;
 					}
@@ -158,7 +169,6 @@
 			});
 		
 			function doDblClickRow(rowIndex, rowData){
-				alert("双击表格数据...");
 				console.info(rowIndex);
 				$('#grid').datagrid('beginEdit',rowIndex);
 				editIndex = rowIndex;

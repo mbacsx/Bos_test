@@ -56,13 +56,6 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 		return SUCCESS;
 	}
 	
-	// 修改快递员
-	@Action(value="courier_update",results={@Result(name="success",type="redirect",location="./pages/base/courier.html")})
-	public String update(){
-		courierService.update(courier);
-		return SUCCESS;
-	}
-	
 	// 查询未关联定区的快递员
 	@Action(value="courier_findNoAssciation",results={@Result(name="success",type="json")})
 	public String findNoAssciation(){

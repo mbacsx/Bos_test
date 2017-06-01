@@ -11,7 +11,6 @@
 		<link rel="stylesheet" type="text/css" href="../../js/easyui/themes/icon.css">
 		<link rel="stylesheet" type="text/css" href="../../js/easyui/ext/portal.css">
 		<link rel="stylesheet" type="text/css" href="../../css/default.css">
-		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
 		<script type="text/javascript" src="../../js/easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="../../js/easyui/ext/jquery.portal.js"></script>
 		<script type="text/javascript" src="../../js/easyui/ext/jquery.cookie.js"></script>
@@ -24,10 +23,54 @@
 
 				// 对save按钮条件 点击事件
 				$('#save').click(function() {
-					// 对form 进行校验
-					if($('#orderForm').form('validate')) {
-						$('#orderForm').submit();
-					}
+					$.post("../../waybill_save.action",$('#waybillForm').serialize(),function(data){
+						$.messager.show({
+							title : '提示',
+							msg : data.msg
+						});
+						// 重置表单
+						$("#waybillForm").get(0).reset();
+						// 隐藏域清空
+						$("input[name='order.id']").val("");
+					});
+				});
+				
+				// 订单号输入项添加blur事件
+				$("#orderNum").blur(function(){
+					$.post("../../order_findByOrderNum.action",{"orderNum":$(this).val()},function(data){
+						// 有该订单号
+						if(data.success){
+							$("#waybillForm").form('load',data.orderData);
+							// 处理load无法回显的数据
+							$("input[name='order.id']").val(data.orderData.id);
+							$("input[name='order.orderNum']").val(data.orderData.orderNum);
+							$("input[name='order.courier.company']").val(data.orderData.courier.company);
+							$("input[name='order.courier.name']").val(data.orderData.courier.name);
+						}else{
+							$.messager.alert("提示","未找到该订单!","info",function(){
+								// 重置表单
+								$("#waybillForm").get(0).reset();
+							});
+						}
+					});
+				});
+				
+				$("#wayBillNum").blur(function(){
+					$.post("../../waybill_findByWayBillNum.action",{"wayBillNum":$(this).val()},function(data){
+						// 有该订单号
+						if(data.success){
+							$("#waybillForm").form('load',data.waybillData);
+							// 运单回显订单
+							$("#waybillForm").form('load',data.waybillData.order);
+							// 处理load无法回显的数据
+							$("input[name='order.id']").val(data.waybillData.order.id);
+							$("input[name='order.orderNum']").val(data.waybillData.order.orderNum);
+							$("input[name='order.courier.company']").val(data.waybillData.order.courier.company);
+							$("input[name='order.courier.name']").val(data.waybillData.order.courier.name);
+						}else{
+							$.messager.alert("提示","未找到该订单!","info");
+						}
+					});
 				});
 			});
 		</script>
@@ -40,6 +83,7 @@
 			<a id="no" icon="icon-no" href="#" class="easyui-linkbutton" plain="true">取消</a>
 		</div>
 		<div style="width:95%;margin:10px auto">
+			<form id="waybillForm" action="../../waybill_save.action" method="post">
 			<div class="table-top">
 				<table class="table-edit" width="95%">
 					<tr class="title">
@@ -49,10 +93,11 @@
 						<td>订单号</td>
 						<td>
 							<input type="hidden" name="order.id" id="orderId" />
-							<input type="text" name="order.orderNum" />
+							<input type="text" id="orderNum" name="order.orderNum" />
 						</td>
 						<td>运单号</td>
 						<td>
+							<input type="hidden" name="id"/>
 							<input type="text" name="wayBillNum" id="wayBillNum"/>
 						</td>
 					</tr>
@@ -62,16 +107,17 @@
 						<td>产品时限</td>
 						<td>
 							<select class="easyui-combobox" name="sendProNum">
-									<option value="速运当日">速运当日</option>
-									<option value="速运次日">速运次日</option>
-									<option value="速运隔日">速运隔日</option>
-								</select>
+								<option value="速运当日">速运当日</option>
+								<option value="速运次日">速运次日</option>
+								<option value="速运隔日">速运隔日</option>
+							</select>
 						</td>
 						<td>配载要求</td>
 						<td>
 							<select class="easyui-combobox" name="floadreqr">
 									<option value="无">无</option>
 									<option value="禁航空">禁航空</option>
+									<option value="禁航空">禁铁路</option>
 									<option value="禁铁路航空">禁铁路航空</option>
 							</select>
 						</td>
@@ -266,6 +312,7 @@
 				</div>
 			</div>
 			<div class="clearfix"></div>		
+			</form>
 		</div>
 	</body>
 
