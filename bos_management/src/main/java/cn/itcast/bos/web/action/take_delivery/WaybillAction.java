@@ -65,7 +65,7 @@ public class WaybillAction extends BaseAction<WayBill> {
 
 		// 按id倒序查询
 		Pageable pageable = new PageRequest(page - 1, rows, new Sort(new Sort.Order(Sort.Direction.DESC, "id")));
-		Page<WayBill> pageData = waybillService.pageQuery(pageable);
+		Page<WayBill> pageData = waybillService.pageQuery(model,pageable);
 		pushPageDataToValueStack(pageData);
 		return SUCCESS;
 	}

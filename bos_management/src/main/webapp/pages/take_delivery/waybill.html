@@ -20,6 +20,11 @@
 				$("body").css({
 					visibility: "visible"
 				});
+				
+				$("#no").click(function(){
+					// 清空表单输入项
+					$("#waybillForm").get(0).reset();
+				});
 
 				// 对save按钮条件 点击事件
 				$('#save').click(function() {
@@ -57,8 +62,12 @@
 				
 				$("#wayBillNum").blur(function(){
 					$.post("../../waybill_findByWayBillNum.action",{"wayBillNum":$(this).val()},function(data){
-						// 有该订单号
+						// 有该运单号
 						if(data.success){
+							if(data.waybillData.order == null){
+								// 如果订单为null就重置表单
+								$("#waybillForm").get(0).reset();
+							}
 							$("#waybillForm").form('load',data.waybillData);
 							// 运单回显订单
 							$("#waybillForm").form('load',data.waybillData.order);
@@ -67,8 +76,9 @@
 							$("input[name='order.orderNum']").val(data.waybillData.order.orderNum);
 							$("input[name='order.courier.company']").val(data.waybillData.order.courier.company);
 							$("input[name='order.courier.name']").val(data.waybillData.order.courier.name);
+							
 						}else{
-							$.messager.alert("提示","未找到该订单!","info");
+							$.messager.alert("提示","未找到该运单!","info");
 						}
 					});
 				});
@@ -78,7 +88,6 @@
 
 	<body>
 		<div class="datagrid-toolbar">
-			<a id="add" icon="icon-add" href="#" class="easyui-linkbutton" plain="true">新增</a>
 			<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
 			<a id="no" icon="icon-no" href="#" class="easyui-linkbutton" plain="true">取消</a>
 		</div>
@@ -106,10 +115,10 @@
 						<td><input type="text" name="arriveCity" required="true" /></td>
 						<td>产品时限</td>
 						<td>
-							<select class="easyui-combobox" name="sendProNum">
-								<option value="速运当日">速运当日</option>
-								<option value="速运次日">速运次日</option>
-								<option value="速运隔日">速运隔日</option>
+							<select class="easyui-combobox" name="sendProNum" id="sendProNum">
+								<option id="sendProNum1" value="速运当日">速运当日</option>
+								<option id="sendProNum2" value="速运次日">速运次日</option>
+								<option id="sendProNum3" value="速运隔日">速运隔日</option>
 							</select>
 						</td>
 						<td>配载要求</td>
