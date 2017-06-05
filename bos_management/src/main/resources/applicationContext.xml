@@ -26,4 +26,6 @@
 	<!-- 导入elasticsearch -->
 	<import resource="applicationContext-elasticsearch.xml"/>
 	
+	<!-- shiro权限控制 -->
+	<import resource="applicationContext-shiro.xml"/>
 </beans>

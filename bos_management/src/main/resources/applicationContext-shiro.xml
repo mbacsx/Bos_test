@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 配置shiro核心filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 安全管理器 -->
+		<property name="securityManager" ref="securityManager"/>
+		<!-- 未认证 -->
+		<property name="loginUrl" value="/login.html"/>
+		<!-- 成功 -->
+		<property name="successUrl" value="/index.jsp"/>
+		<!-- 认证后权限不足 -->
+		<property name="unauthorizedUrl" value="/unauthorized.html"/>
+		<!-- shiro URL控制器过滤规则 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/login.html* = anon
+				<!-- 验证码 -->
+				/validatecode.jsp* = anon
+				/css/** = anon
+				/js/** = anon
+				/images/** = anon
+				<!-- webService -->
+				/services/** = anon
+				<!-- 登录 -->
+				/user_login.action* = anon
+				<!-- 权限 -->
+				/pages/base/courier.html* = perms[courier:list]
+				<!-- 角色 -->
+				/pages/base/area.html* = roles[base]
+				/** = authc
+			</value>
+		</property>
+	</bean>
+	
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="bosRealm"/>
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor"  class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	<!-- 开启shiro注解模式 ,细粒度权限控制,使方法上注解生效-->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true"/><!-- 基于实现类进行代理 -->
+	</bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
+	
+</beans>

@@ -9,6 +9,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ public class CourierServiceImpl implements CourierService {
 	private CourierRepository courierRepository;
 	
 	@Override
+	@RequiresPermissions("courier:add")
 	public void save(Courier courier) {
 		Courier persistCourier = courierRepository.findByCourierNum(courier.getCourierNum());
 		if (persistCourier == null) {
@@ -55,21 +57,6 @@ public class CourierServiceImpl implements CourierService {
 		}
 	}
 	
-	//修改快递员信息
-//	@Override
-//	public void update(Courier courier) {
-//		Courier c = courierRepository.findOne(courier.getId());
-//		c.setName(courier.getName());
-//		c.setTelephone(courier.getTelephone());
-//		c.setPda(courier.getPda());
-//		c.setDeltag(courier.getDeltag());
-//		c.setCheckPwd(courier.getCheckPwd());
-//		c.setType(courier.getType());
-//		c.setCompany(courier.getCompany());
-//		c.setVehicleType(courier.getVehicleType());
-//		c.setVehicleNum(courier.getVehicleNum());
-//	}
-
 	@Override
 	public List<Courier> findNoAssciation() {
 		Specification<Courier> specification = new Specification<Courier>() {

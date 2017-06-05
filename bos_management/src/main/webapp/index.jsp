@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -46,7 +48,7 @@
 				window.setTimeout(function(){
 					$.messager.show({
 						title:"消息提示",
-						msg:'欢迎登录，超级管理员！ <a href="javascript:void" onclick="top.showAbout();">联系管理员</a>',
+						msg:'欢迎登录，超级管理员${user.nickname}！<br/><a href="javascript:void" onclick="top.showAbout();">联系管理员</a>',
 						timeout:5000
 					});
 				},3000);
@@ -150,7 +152,7 @@
 				$.messager
 				.confirm('系统提示','您确定要退出本次登录吗?',function(isConfirm) {
 					if (isConfirm) {
-						location.href = './login.html';
+						location.href = './user_logout.action';
 					}
 				});
 			}
@@ -160,7 +162,7 @@
 			}
 			// 版权信息
 			function showAbout(){
-				$.messager.alert("bos v2.0综合物流管理平台","设计: 传智播客<br/> 管理员邮箱: itcast_search@163.com <br/>");
+				$.messager.alert("bos综合物流管理平台","设计: may<br/> 管理员邮箱: mbacsx@163.com <br/>");
 			}
 		</script>
 	</head>
@@ -171,7 +173,7 @@
 				<img src="./images/logo.png" border="0">
 			</div>
 			<div id="sessionInfoDiv" style="position: absolute;right: 5px;top:10px;">
-				[<strong>超级管理员</strong>]，欢迎你！您使用[<strong>192.168.1.100</strong>]IP登录！
+				[<strong>超级管理员</strong>]，${user.nickname}，欢迎你！您使用[<strong>${ip}</strong>]IP登录！
 			</div>
 			<div style="position: absolute; right: 5px; bottom: 10px; ">
 				<a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#layout_north_pfMenu',iconCls:'icon-ok'">更换皮肤</a>
@@ -228,26 +230,28 @@
 		<div id="editPwdWindow" class="easyui-window" title="修改密码" collapsible="false" minimizable="false" modal="true" closed="true" resizable="false" maximizable="false" icon="icon-save" style="width: 300px; height: 160px; padding: 5px;
         background: #fafafa">
 			<div class="easyui-layout" fit="true">
-				<div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc;">
-					<table cellpadding=3>
-						<tr>
-							<td>新密码：</td>
-							<td>
-								<input id="txtNewPass" type="Password" class="txt01" />
-							</td>
-						</tr>
-						<tr>
-							<td>确认密码：</td>
-							<td>
-								<input id="txtRePass" type="Password" class="txt01" />
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div region="south" border="false" style="text-align: right; height: 30px; line-height: 30px;">
-					<a id="btnEp" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)">确定</a>
-					<a id="btnCancel" class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)">取消</a>
-				</div>
+				<form id="editPwdForm" action="" method="post">
+					<div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc;">
+						<table cellpadding=3>
+							<tr>
+								<td>新密码：</td>
+								<td>
+									<input id="txtNewPass" name="password" type="Password" class="txt01" required="true"/>
+								</td>
+							</tr>
+							<tr>
+								<td>确认密码：</td>
+								<td>
+									<input id="txtRePass" type="Password" class="txt01" required="true"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div region="south" border="false" style="text-align: right; height: 30px; line-height: 30px;">
+						<a id="btnEp" class="easyui-linkbutton" icon="icon-ok" href="javascript:void">确定</a>
+						<a id="btnCancel" class="easyui-linkbutton" icon="icon-cancel" href="javascript:void">取消</a>
+					</div>
+				</form>
 			</div>
 		</div>
 
