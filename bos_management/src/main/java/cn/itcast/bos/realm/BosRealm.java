@@ -14,7 +14,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import cn.itcast.bos.domain.system.Permission;
 import cn.itcast.bos.domain.system.Role;
@@ -23,7 +22,7 @@ import cn.itcast.bos.service.system.PermissionService;
 import cn.itcast.bos.service.system.RoleService;
 import cn.itcast.bos.service.system.UserService;
 
-@Service("bosRealm")
+//@Service("bosRealm")
 public class BosRealm extends AuthorizingRealm {
 	
 	@Autowired

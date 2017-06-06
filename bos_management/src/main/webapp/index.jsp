@@ -33,8 +33,8 @@
 					}
 				};
 				
-				// 基本功能菜单加载
-				$.post("./data/menu.json",function(data){
+				// 基本功能菜单加载 ./data/menu.json
+				$.post("./menu_dynamicMenu.action",function(data){
 					$.fn.zTree.init($("#treeMenu"), setting, data);
 				},"json");
 				
@@ -48,7 +48,7 @@
 				window.setTimeout(function(){
 					$.messager.show({
 						title:"消息提示",
-						msg:'欢迎登录，超级管理员${user.nickname}！<br/><a href="javascript:void" onclick="top.showAbout();">联系管理员</a>',
+						msg:'欢迎登录，${user.nickname}！<a href="javascript:void" onclick="top.showAbout();">联系管理员</a>',
 						timeout:5000
 					});
 				},3000);
@@ -97,6 +97,7 @@
 						}
 					} 
 				}); 
+					
 			});
 			
 			function onClick(event, treeId, treeNode, clickFlag) {
@@ -173,7 +174,7 @@
 				<img src="./images/logo.png" border="0">
 			</div>
 			<div id="sessionInfoDiv" style="position: absolute;right: 5px;top:10px;">
-				[<strong>超级管理员</strong>]，${user.nickname}，欢迎你！您使用[<strong>${ip}</strong>]IP登录！
+				[<strong>${user.nickname}</strong>]，欢迎你！您使用[<strong>${ip}</strong>]IP登录！
 			</div>
 			<div style="position: absolute; right: 5px; bottom: 10px; ">
 				<a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#layout_north_pfMenu',iconCls:'icon-ok'">更换皮肤</a>

@@ -28,4 +28,8 @@
 	
 	<!-- shiro权限控制 -->
 	<import resource="applicationContext-shiro.xml"/>
+	
+	<!-- ehcache -->
+	<import resource="applicationContext-cache.xml"/>
+	
 </beans>

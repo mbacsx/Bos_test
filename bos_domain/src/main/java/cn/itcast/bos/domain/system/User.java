@@ -1,5 +1,6 @@
 package cn.itcast.bos.domain.system;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,13 +14,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.apache.struts2.json.annotations.JSON;
+
 /**
  * @description:后台用户
  */
 @Entity
 @Table(name = "T_USER")
-public class User {
-
+public class User implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "C_ID")
@@ -33,7 +37,9 @@ public class User {
 	@Column(name = "C_REMARK")
 	private String remark; // 备注
 	@Column(name = "C_STATION")
-	private String station; // 状态
+	private String station; // 单位
+	@Column(name="C_SALATY")
+	private String salary; // 工资
 	@Column(name = "C_TELEPHONE")
 	private String telephone; // 联系电话
 	@Column(name = "C_USERNAME", unique = true)
@@ -95,6 +101,14 @@ public class User {
 		this.station = station;
 	}
 
+	public String getSalary() {
+		return salary;
+	}
+
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
+
 	public String getTelephone() {
 		return telephone;
 	}
@@ -118,7 +132,8 @@ public class User {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-
+	
+	@JSON(serialize=false)
 	public Set<Role> getRoles() {
 		return roles;
 	}

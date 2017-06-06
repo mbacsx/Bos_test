@@ -38,10 +38,11 @@
 				checkbox : true,
 				rowspan : 2
 			}, {
-				field : 'username',
-				title : '名称',
+				field : 'nickname',
+				title : '姓名',
 				width : 80,
-				rowspan : 2
+				rowspan : 2,
+				align : 'center'
 			} ] ];
 		
 		
@@ -64,8 +65,9 @@
 			}, {
 				field : 'telephone',
 				title : '电话',
-				width : 800,
-				rowspan : 2
+				width : 120,
+				rowspan : 2,
+				align : 'center'
 			} ], [ {
 				field : 'station',
 				title : '单位',
@@ -75,7 +77,7 @@
 				field : 'salary',
 				title : '工资',
 				width : 80,
-				align : 'right'
+				align : 'center'
 			} ] ];
 			$(function(){
 				// 初始化 datagrid
@@ -87,7 +89,7 @@
 					rownumbers : true,
 					striped : true,
 					toolbar : toolbar,
-					url : "../../data/users.json",
+					url : "../../user_list.action",
 					idField : 'id', 
 					frozenColumns : frozenColumns,
 					columns : columns,

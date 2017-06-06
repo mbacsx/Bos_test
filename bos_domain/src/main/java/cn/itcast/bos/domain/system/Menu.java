@@ -1,5 +1,6 @@
 package cn.itcast.bos.domain.system;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,13 +13,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.struts2.json.annotations.JSON;
 
 /**
  * @description:菜单
  */
 @Entity
 @Table(name = "T_MENU")
-public class Menu {
+public class Menu implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "C_ID")
@@ -41,7 +47,16 @@ public class Menu {
 	@ManyToOne
 	@JoinColumn(name = "C_PID")
 	private Menu parentMenu;
-
+	
+	@Transient // 不在数据表中生成该列
+	public Integer getpId(){
+		if (parentMenu == null) {
+			return 0;
+		}else {
+			return parentMenu.getId();
+		}
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -81,7 +96,8 @@ public class Menu {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
+	@JSON(serialize=false)
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -89,7 +105,8 @@ public class Menu {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
+	
+	@JSON(serialize=false)
 	public Set<Menu> getChildrenMenus() {
 		return childrenMenus;
 	}

@@ -18,7 +18,19 @@
 			$(function(){
 				$("body").css({visibility:"visible"});
 				$('#save').click(function(){
-					$('#form').submit();
+					if($('#userForm').form('validate')){
+						$('#userForm').submit();
+					}else{
+						$.messager.alert("警告","表单中还存在无法校验的内容!","warning");
+					}
+				});
+				
+				$.get("../../role_list.action",function(data){
+					$(data).each(function(i,n){
+						var checkBox = "<input type='checkbox' name='roleIds' value='"+n.id+"' />";
+						$("#roleTD").append(checkBox);
+						$("#roleTD").append(n.name);
+					});
 				});
 			});
 		</script>
@@ -28,10 +40,11 @@
 		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
 			<div class="datagrid-toolbar">
 				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+				<a id="back" icon="icon-back" href="#" onclick="history.go(-1)" class="easyui-linkbutton" plain="true">返回上一级</a>
 			</div>
 		</div>
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form id="form" method="post">
+			<form id="userForm" method="post" action="../../user_save.action">
 				<table class="table-edit" width="95%" align="center">
 					<tr class="title">
 						<td colspan="4">基本信息</td>
@@ -41,9 +54,9 @@
 						<td>
 							<input type="text" name="username" id="username" class="easyui-validatebox" required="true" />
 						</td>
-						<td>口令:</td>
+						<td>密码:</td>
 						<td>
-							<input type="password" name="password" id="password" class="easyui-validatebox" required="true" validType="minLength[5]" />
+							<input type="text" name="password" id="password" class="easyui-validatebox" required="true" validType="minLength[5]" />
 						</td>
 					</tr>
 					<tr>
@@ -76,7 +89,7 @@
 						</td>
 						<td>单位:</td>
 						<td>
-							<select name="station" id="station" class="easyui-combobox" style="width: 150px;">
+							<select name="station" id="station" class="easyui-combobox" required="true" style="width: 150px;">
 								<option value="">请选择</option>
 								<option value="总公司">总公司</option>
 								<option value="分公司">分公司</option>
@@ -94,10 +107,7 @@
 					</tr>
 					<tr>
 						<td>角色:</td>
-						<td colspan="3">
-							<input type="checkbox" name="roleIds" value="1" /> 经理
-							<input type="checkbox" name="roleIds" value="2" /> 仓库管理员
-							<input type="checkbox" name="roleIds" value="3" /> 客服人员
+						<td id="roleTD">
 						</td>
 					</tr>
 					<tr>

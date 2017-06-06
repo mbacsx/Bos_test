@@ -31,15 +31,22 @@
 				<!-- 权限 -->
 				/pages/base/courier.html* = perms[courier:list]
 				<!-- 角色 -->
-				/pages/base/area.html* = roles[base]
+				<!-- /pages/base/area.html* = roles[base] -->
+				<!-- 其他资源都设置为登录才可访问 -->
 				/** = authc
 			</value>
 		</property>
 	</bean>
 	
-	<!-- 安全管理器 -->
+	<!-- 安全管理器  -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="bosRealm"/>
+		<property name="realm" ref="bosRealm" />
+		<property name="cacheManager" ref="shiroCacheManager" />
+	</bean>
+	
+	<!-- realm -->
+	<bean id="bosRealm" class="cn.itcast.bos.realm.BosRealm">
+		<property name="authorizationCacheName" value="bos"/>
 	</bean>
 	
 	<bean id="lifecycleBeanPostProcessor"  class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
