@@ -11,10 +11,19 @@
 	<bean id="promotionJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass" value="cn.itcast.bos.quartz.PromotionJob"/>
 	</bean>
+	<bean id="waybillIndexJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="cn.itcast.bos.quartz.WaybillIndexJob"/>
+	</bean>
 	
 	<!-- trigger -->
-	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+	<bean id="simpleTrigger1" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
 		<property name="jobDetail" ref="promotionJob" />
+		<property name="startDelay" value="0" />
+		<!-- 30分钟执行一次检查 -->
+		<property name="repeatInterval" value="1800000"/>
+	</bean>
+	<bean id="simpleTrigger2" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="waybillIndexJob" />
 		<property name="startDelay" value="0" />
 		<!-- 30分钟执行一次检查 -->
 		<property name="repeatInterval" value="1800000"/>
@@ -25,7 +34,8 @@
 		<property name="jobFactory" ref="jobFactory"/>
 		<property name="triggers">
 			<list>
-				<ref bean="simpleTrigger"/>
+				<ref bean="simpleTrigger1"/>
+				<ref bean="simpleTrigger2"/>
 			</list>
 		</property>
 	</bean>

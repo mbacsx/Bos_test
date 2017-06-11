@@ -143,6 +143,8 @@ public class CustomerAction extends BaseAction<Customer> {
 				// 未激活
 				// 发送修改请求
 				WebClient.create("http://localhost:8088/crm_management/services/customerService/updateType?telephone="+model.getTelephone()).put(null);
+				// 删除redis的激活码
+				redisTemplate.delete(model.getTelephone());
 				return SUCCESS;
 			}else {
 				// 已经激活过了

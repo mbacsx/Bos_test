@@ -49,6 +49,13 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 	@Autowired
 	private CourierService courierService;
 	
+	@Action(value="courier_list",results={@Result(name="success",type="json")})
+	public String courierList(){
+		List<Courier> couierData = courierService.findAll();
+		ActionContext.getContext().getValueStack().push(couierData);
+		return SUCCESS;
+	}
+	
 	// 添加快递员
 	@Action(value="courier_save",results={@Result(name="success",type="redirect",location="./pages/base/courier.html")})
 	public String save(){

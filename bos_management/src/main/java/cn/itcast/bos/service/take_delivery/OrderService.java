@@ -1,5 +1,7 @@
 package cn.itcast.bos.service.take_delivery;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,4 +16,8 @@ public interface OrderService {
 	public void saveOrder(Order order);
 
 	public Order findByOrderNum(String orderNum);
+
+	public List<Order> findByOrderType();
+
+	public void dispatcherOrder(Order model);
 }

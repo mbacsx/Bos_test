@@ -24,7 +24,9 @@
 			}
 			
 			function doSearch(){
-				$('#searchWindow').window("open");
+				//$('#searchWindow').window("open");
+				var rows = $("#grid").datagrid('getSelections');// 获取所有选择的行
+				alert(rows[0].order.orderNum);
 			}
 			
 			//工具栏
@@ -49,10 +51,16 @@
 				field : 'id',
 				checkbox : true,
 			}, {
-				field : 'orderNum',
+				field : 'order.orderNum',
 				title : '订单号',
 				width : 120,
-				align : 'center'
+				align : 'center',
+				formatter : function(data,row, index){
+					if(row.order != null){
+						return row.order.orderNum;
+					}
+					return "";
+				}
 			},{
 				field : 'type',
 				title : '工单类型',
@@ -67,7 +75,14 @@
 				field : 'buildtime',
 				title : '工单生成时间',
 				width : 120,
-				align : 'center'
+				align : 'center',
+				formatter: function(data, row, index) {
+					if(data == null){
+						return "";
+					}else{
+						return data.replace("T", " ");
+					}
+				}
 			}, {
 				field : 'attachbilltimes',
 				title : '追单次数',
@@ -77,12 +92,24 @@
 				field : 'courier.name',
 				title : '快递员',
 				width : 100,
-				align : 'center'
+				align : 'center',
+				formatter : function(data,row, index){
+					if(row.courier != null){
+						return row.courier.name;
+					}
+					return "";
+				}
 			}, {
 				field : 'courier.telephone',
 				title : '联系方式',
 				width : 100,
-				align : 'center'
+				align : 'center',
+				formatter : function(data,row, index){
+					if(row.courier != null){
+						return row.courier.telephone;
+					}
+					return "";
+				}
 			} ] ];
 			
 			$(function(){
@@ -99,7 +126,7 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url :  "",
+					url : "../../workbill_list.action",
 					idField : 'id',
 					columns : columns,
 					onDblClickRow : doDblClickRow
@@ -122,7 +149,7 @@
 				});
 			});
 		
-			function doDblClickRow(){
+			function doDblClickRow(rowIndex,rowData){
 				alert("双击表格数据...");
 			}
 		</script>

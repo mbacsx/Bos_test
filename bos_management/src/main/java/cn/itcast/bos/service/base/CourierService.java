@@ -18,4 +18,6 @@ public interface CourierService {
 
 	List<Courier> findNoAssciation();
 
+	List<Courier> findAll();
+
 }

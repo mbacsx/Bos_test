@@ -2,6 +2,7 @@ package cn.itcast.bos.service.take_delivery.impl;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import javax.jms.JMSException;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.bos.dao.base.AreaRepository;
+import cn.itcast.bos.dao.base.CourierRepository;
 import cn.itcast.bos.dao.base.FixedAreaRepository;
 import cn.itcast.bos.dao.take_delivery.OrderRepository;
 import cn.itcast.bos.dao.take_delivery.WorkBillRepository;
@@ -46,6 +48,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private WorkBillRepository workBillRepository;
+	
+	@Autowired
+	private CourierRepository courierRepository;
 
 	// 注入activeMQ模版
 	@Autowired
@@ -148,9 +153,21 @@ public class OrderServiceImpl implements OrderService {
 		 * 人工分单
 		 */
 		// 设置分单类型
+		System.out.println("匹配失败,送往人工分单...");
 		order.setOrderType("2");
 		// 保存
 		orderRepository.save(order);
+	}
+	
+	// 人工分单
+	@Override
+	public void dispatcherOrder(Order model) {
+		Order persistOrder = orderRepository.findOne(model.getId());
+		Courier courier = courierRepository.findOne(model.getCourier().getId());
+		persistOrder.setCourier(courier);
+		persistOrder.setOrderType("3");// 人工分单成功
+		generateWorkBill(persistOrder);// 生成工单
+		System.out.println("人工分单成功...");
 	}
 
 	// 生成工单,发送短信
@@ -196,6 +213,12 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order findByOrderNum(String orderNum) {
 		return orderRepository.findByOrderNum(orderNum);
+	}
+
+	@Override
+	// 查询需要人工分单的订单
+	public List<Order> findByOrderType() {
+		return orderRepository.findByOrderType("2");
 	}
 
 }

@@ -78,7 +78,7 @@ public class Order {
 	@Column(name = "C_SEND_MOBILE_MSG")
 	private String sendMobileMsg; // 给快递员捎话
 
-	// 分单类型 1 自动分单 2 人工分单
+	// 分单类型 1 自动分单 2 人工分单 3 人工分单成功
 	@Column(name = "C_ORDER_TYPE")
 	private String orderType;
 

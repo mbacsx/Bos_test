@@ -23,6 +23,8 @@
 					// 对form 进行校验
 					if($('#orderForm').form('validate')){
 						$('#orderForm').submit();
+					}else{
+						$.messager.alert("警告","表单中还存在无法校验的内容!","warning");
 					}
 				});
 			});
@@ -33,11 +35,10 @@
 		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
 			<div class="datagrid-toolbar">
 				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">新单</a>
-				<a id="edit" icon="icon-edit" href="../../pages/take_delivery/work_order.html" class="easyui-linkbutton" plain="true">工单操作</a>
 			</div>
 		</div>
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form id="orderForm" action="" method="post">
+			<form id="orderForm" action="../../order_save.action" method="post">
 				<table class="table-edit" width="95%" align="center">
 					<tr class="title">
 						<td colspan="4">客户信息</td>
@@ -47,17 +48,17 @@
 						<td>
 							<input type="text" class="easyui-validatebox" name="telephone" required="true" />
 						</td>
-						<td>客户编号:</td>
+						<!--<td>客户编号:</td>
 						<td>
 							<input type="text" class="easyui-validatebox" name="customerId" required="true" />
-						</td>
+						</td>-->
 					</tr>
-					<tr>
+					<!--<tr>
 						<td>客户姓名:</td>
 						<td colspan="3">
 							<input type="text" class="easyui-validatebox" name="customerName" required="true" />
 						</td>
-					</tr>
+					</tr>-->
 					<tr class="title">
 						<td colspan="4">寄件人信息</td>
 					</tr>
@@ -84,7 +85,7 @@
 					<tr>
 						<td>详细地址:</td>
 						<td colspan="3">
-							<input type="text" class="easyui-numberbox" name="sendAddress" required="true" size="60"/>
+							<input type="text" class="easyui-validatebox" name="sendAddress" required="true" size="60"/>
 						</td>
 					</tr>
 					<tr class="title">
@@ -107,13 +108,13 @@
 						</td>
 						<td>省市区:</td>
 						<td>
-							<input type="text" class="easyui-validatebox" name="recArea" required="true" />
+							<input type="text" class="easyui-validatebox" name="recAreaInfo" required="true" />
 						</td>
 					</tr>
 					<tr>
 						<td>详细地址:</td>
 						<td colspan="3">
-							<input type="text" class="easyui-numberbox" name="recAddress" required="true" size="60"/>
+							<input type="text" class="easyui-validatebox" name="recAddress" required="true" size="60"/>
 						</td>
 					</tr>
 					<tr class="title">
@@ -131,7 +132,7 @@
 						</td>
 						<td>重量:</td>
 						<td>
-							<input type="text" class="easyui-numberbox" name="weight" required="true" />
+							<input type="text" class="easyui-numberbox" name="weight" />
 						</td>
 					</tr>
 					<tr>
@@ -155,7 +156,13 @@
 					<tr>
 						<td>备注:</td>
 						<td colspan="3">
-							<input type="text" class="easyui-numberbox" name="remark" required="true" size="60"/>
+							<input type="text" class="easyui-validatebox" name="remark" size="60"/>
+						</td>
+					</tr>
+					<tr>
+						<td>给快递员的悄悄话:</td>
+						<td colspan="3">
+							<input type="text" class="easyui-validatebox" name="sendMobileMsg" size="60"/>
 						</td>
 					</tr>
 				</table>

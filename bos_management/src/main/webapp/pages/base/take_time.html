@@ -132,7 +132,14 @@
 				field : 'operatingTime',
 				title : '操作时间',
 				width : 120,
-				align : 'center'
+				align : 'center',
+				formatter: function(data, row, index) {
+					if(data == null){
+						return "";
+					}else{
+						return data.replace("T", " ");
+					}
+				}
 			}, {
 				field : 'operatingCompany',
 				title : '操作单位',

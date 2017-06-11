@@ -41,6 +41,53 @@
 				// 将数据绑定到datagrid表格上
 				$('#tt').datagrid('load', queryParam);
 			}
+			
+			$(function(){
+				$("#transitBtn").click(function(){
+					var rows = $("#tt").datagrid('getSelections');
+					if(rows.length == 0){
+						$.messager.alert("警告","必须选中一条运单记录!","warning");
+					}else{
+						var array = new Array();
+						for(var i = 0;i < rows.length;i++){
+							array.push(rows[i].id);
+						}
+						var wayBillIds = array.join(",");
+						$.post("../../transit_create.action",{wayBillIds:wayBillIds},function(data){
+							if(data.success){
+								$.messager.show({
+									title : "操作成功",
+									msg : data.msg
+								});
+							}else{
+								$.messager.show({
+									title : "操作失败",
+									msg : data.msg
+								});
+							}
+						});
+					}
+				});
+				
+				// 导出excle
+				$("#exportExcle").click(function(){
+					// 根据查询条件先进行查询
+					$("#searchForm").attr("action","../../report_exportXls.action");
+					$("#searchForm").submit();
+				});
+				
+				$("#exportPDF").click(function(){
+					// 根据查询条件先进行查询
+					$("#searchForm").attr("action","../../report_exportPDF.action");
+					$("#searchForm").submit();
+				});
+				
+				$("#exportJasperPDF").click(function(){
+					// 根据查询条件先进行查询
+					$("#searchForm").attr("action","../../report_exportjasperPDF.action");
+					$("#searchForm").submit();
+				});
+			});
 		</script>
 	</head>
 
@@ -50,13 +97,17 @@
 			<a id="help" icon="icon-cancel" href="#" class="easyui-linkbutton" plain="true">取消</a>
 			<a id="help" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
 			<a id="cut" icon="icon-cut" href="#" class="easyui-linkbutton" plain="true">作废</a>
+			<a id="transitBtn" icon="icon-edit" href="#" class="easyui-linkbutton" plain="true">开始中转配送</a>
+			<a id="exportExcle" icon="icon-redo" href="#" class="easyui-linkbutton" plain="true">导出Excle</a>
+			<a id="exportPDF" icon="icon-redo" href="#" class="easyui-linkbutton" plain="true">导出PDF</a>
+			<a id="exportJasperPDF" icon="icon-redo" href="#" class="easyui-linkbutton" plain="true">根据模版文件导出PDF</a>
 			<a id="help" icon="icon-help" href="#" class="easyui-linkbutton" plain="true">任务提示</a>
+			<a id="help" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印查询结果</a>
 			<a id="help" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印标签</a>
 			<a id="help" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印工作单</a>
-			<a id="help" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印查询结果</a>
 			
 			<br />
-			<form id="searchForm">
+			<form id="searchForm" method="post">
 				运单号：<input name="wayBillNum" style="line-height:26px;border:1px solid #ccc">
 				发货地：<input name="sendAddress" style="line-height:26px;border:1px solid #ccc" >
 				收货地：<input name="recAddress" style="line-height:26px;border:1px solid #ccc" >
@@ -102,6 +153,7 @@
 					<th field="vol" width="80">体积</th>
 					<th field="floadreqr" width="80">配载要求</th>
 					<th field="wayBillType" width="80">运单类型</th>
+					<th field="signStatus" width="80">签收状态</th>
 				</tr>
 			</thead>
 		</table>

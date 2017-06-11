@@ -25,8 +25,16 @@
 						text : '人工调度',						
 						iconCls : 'icon-edit',
 						handler : function() {
-							// 弹出窗口
-							$("#dispatcherWindow").window('open');
+							var row = $("#grid").datagrid('getSelected');
+							if(row == null){
+								$.messager.alert("警告","请选择一条数据!","warning");
+							}else{
+								$("#orderId").val(row.id);
+								$("#orderIdView").empty();
+								$("#orderIdView").append(row.orderNum);
+								// 弹出窗口
+								$("#dispatcherWindow").window('open');
+							}
 						}
 					} ],
 					columns : [ [ {
@@ -38,7 +46,7 @@
 						title : '订单号',
 						width : 100
 					}, {
-						field : 'delegater',
+						field : 'sendName',
 						title : '联系人',
 						width : 100
 					}, {
@@ -61,12 +69,17 @@
 							return data.replace("T", " ");
 						}
 					} ] ],
-					url : ''
+					url : '../../order_findByOrderType.action',
+					fit : true
 				});
 		
 				// 点击保存按钮，为通知单 进行分单 --- 生成工单
 				$("#save").click(function() {
-		
+					if($("#dispatcherForm").form('validate')){
+						$("#dispatcherForm").submit();
+					}else{
+						$.messager.alert("警告","表单中还存在无法校验的内容!","warning");
+					}
 				});
 			});
 		</script>
@@ -83,7 +96,7 @@
 				</div>
 			</div>
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="dispatcherForm" method="post">
+				<form id="dispatcherForm" method="post" action="../../order_dispatcher.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">人工调度</td>
@@ -91,12 +104,13 @@
 						<tr>
 							<td>订单编号</td>
 							<td>
-								<input type="hidden" name="id" id="orderId" /> <span id="orderIdView"></span>
+								<input type="hidden" name="id" id="orderId" />
+								<span id="orderIdView"></span>
 						</tr>
 						<tr>
 							<td>选择快递员</td>
 							<td>
-								<input class="easyui-combobox" required="true" name="courier.id" data-options="valueField:'id',textField:'name',url:'../../courier_ajaxlist.action'" />
+								<input class="easyui-combobox" required="true" name="courier.id" data-options="valueField:'id',textField:'info',url:'../../courier_list.action'" />
 							</td>
 						</tr>
 					</table>

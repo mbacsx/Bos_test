@@ -17,4 +17,11 @@
 		<property name="cacheManager" ref="ehCacheManager"/>
 	</bean>
 	
+	<!-- spring封装ehcache缓存管理器 -->
+	<bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehCacheManager"/>
+	</bean>
+	
+	<!-- 激活espring 缓存注解 -->
+	<cache:annotation-driven cache-manager="springCacheManager"/>
 </beans>

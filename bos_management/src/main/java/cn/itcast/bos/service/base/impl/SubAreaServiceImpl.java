@@ -3,6 +3,8 @@ package cn.itcast.bos.service.base.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +23,7 @@ public class SubAreaServiceImpl implements SubAreaService {
 	private SubAreaRepository subAreaRepository;
 
 	@Override
+	@CacheEvict(value="subArea",allEntries=true)
 	public void save(SubArea model) {
 		subAreaRepository.save(model);
 	}
@@ -31,6 +34,7 @@ public class SubAreaServiceImpl implements SubAreaService {
 	}
 
 	@Override
+	@Cacheable("subArea")
 	public List<SubArea> findAll() {
 		return subAreaRepository.findAll();
 	}

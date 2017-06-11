@@ -9,7 +9,7 @@
  	<elasticsearch:repositories base-package="cn.itcast.bos.dao.index" />
  
  	<!-- 配置elasticsearch 连接 -->
- 	<elasticsearch:transport-client id="client" cluster-nodes="localhost:9300" />
+ 	<elasticsearch:transport-client id="client" cluster-nodes="127.0.0.1:9300" />
  	
  	<!-- spring data elasticsearch DAO 必须依赖 elasticsearchTemplate  -->
  	<bean id="elasticsearchTemplate" 

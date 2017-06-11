@@ -68,4 +68,9 @@ public class CourierServiceImpl implements CourierService {
 		};
 		return courierRepository.findAll(specification);
 	}
+
+	@Override
+	public List<Courier> findAll() {
+		return courierRepository.findAll();
+	}
 }
