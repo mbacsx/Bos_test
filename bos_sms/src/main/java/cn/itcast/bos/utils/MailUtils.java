@@ -11,8 +11,8 @@ import javax.mail.internet.MimeMessage.RecipientType;
 
 public class MailUtils {
 	private static String smtp_host = "smtp.qq.com";
-	private static String username = "cmstore@qq.com"; // 邮箱账户
-	private static String password = "xsknkjnafjfneacj"; // 邮箱授权码
+	private static String username = "邮箱"; // 邮箱账户
+	private static String password = "邮箱授权码"; // 邮箱授权码
 
 	private static String from = "cmstore@qq.com"; // 使用当前账户
 
