@@ -9,7 +9,7 @@ import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 public class AliDaYuUtils {
 	
 	public static String sendMessage(String telephone, String paramString,String templateCode) throws ApiException{
-		TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "23845724", "fb5f670d23be16d24a4e1c8201114560");
+		TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "阿里大于账号", "阿里大于授权码");
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
 		
 		req.setExtend("123456");
